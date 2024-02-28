@@ -1,1 +1,15 @@
 kind	class	method	param	index	uri	field
+METHOD	com.squareup.picasso3.Picasso$Builder	defaultBitmapConfig(android.graphics.Bitmap.Config)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	defaultBitmapConfig
+METHOD	com.squareup.picasso3.Picasso$Builder	client(okhttp3.OkHttpClient)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	callFactory
+METHOD	com.squareup.picasso3.Picasso$Builder	callFactory(okhttp3.Call.Factory)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	callFactory
+METHOD	com.squareup.picasso3.Picasso$Builder	executor(java.util.concurrent.ExecutorService)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	service
+METHOD	com.squareup.picasso3.Picasso$Builder	withCacheSize(int)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	cache
+METHOD	com.squareup.picasso3.Picasso$Builder	listener(com.squareup.picasso3.Picasso.Listener)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	listener
+METHOD	com.squareup.picasso3.Picasso$Builder	build()	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	callFactory
+METHOD	com.squareup.picasso3.Picasso$Builder	build()	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	cache
+METHOD	com.squareup.picasso3.Picasso$Builder	build()	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/Picasso.java	service
+METHOD	com.squareup.picasso3.BitmapHunter	hunt()	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/BitmapHunter.java	data
+METHOD	com.squareup.picasso3.BitmapHunter	attach(com.squareup.picasso3.Action)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/BitmapHunter.java	action
+METHOD	com.squareup.picasso3.RequestCreator	error(android.graphics.drawable.Drawable)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/RequestCreator.java	errorDrawable
+METHOD	com.squareup.picasso3.AssetRequestHandler	load(com.squareup.picasso3.Picasso,com.squareup.picasso3.Request,com.squareup.picasso3.RequestHandler.Callback)	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/AssetRequestHandler.java	assetManager
+METHOD	com.squareup.picasso3.SourceBufferingInputStream	reset()	null	null	/home/nima/Developer/nullness-benchmarks/picasso/picasso/src/main/java/com/squareup/picasso3/SourceBufferingInputStream.java	markPosition

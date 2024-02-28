@@ -48,11 +48,11 @@ tasks.withType(JavaCompile) {
   if (!name.toLowerCase().contains("test")) {
     // NullAway args
     options.compilerArgs += [
-            '-Xep:NullAway:OFF',
+            '-Xep:NullAway:WARN',
             "-XepOpt:NullAway:SerializeFixMetadata=true",
             "-XepOpt:NullAway:FixSerializationConfigPath=/home/nima/Developer/nullness-benchmarks/picasso/annotator-out/checker.xml",
             '-XepOpt:NullAway:AnnotatedPackages=com.squareup.picasso3',
-            "-Xep:AnnotatorScanner:WARN",
+            "-Xep:AnnotatorScanner:OFF",
             "-XepOpt:AnnotatorScanner:ConfigPath=/home/nima/Developer/nullness-benchmarks/picasso/annotator-out/scanner.xml",
     ]
     options.compilerArgs << "-Xmaxerrs" << "100000"
