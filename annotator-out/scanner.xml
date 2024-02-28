@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<scanner>
+    <serialization active="true"/>
+    <uuid>144437f2-8aca-411b-9a2c-9f4045813b6c</uuid>
+    <path>/home/nima/Developer/nullness-benchmarks/caffeine/annotator-out/0</path>
+    <processor>
+        <LOMBOK active="true"/>
+    </processor>
+    <annotations/>
+</scanner>

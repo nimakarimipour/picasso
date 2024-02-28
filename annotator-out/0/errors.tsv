@@ -1,0 +1,2 @@
+message_type	message	enc_class	enc_member	offset	path	target_kind	target_class	target_method	target_param	target_index	target_path
+DEREFERENCE_NULLABLE	dereferenced expression cursor is @Nullable	com.github.benmanes.caffeine.cache.LocalAsyncLoadingCache$AsMapView$EntrySet$1	next()	29355	/home/nima/Developer/nullness-benchmarks/caffeine/caffeine/src/main/java/com/github/benmanes/caffeine/cache/LocalAsyncLoadingCache.java	null	null	null	null	null	null
