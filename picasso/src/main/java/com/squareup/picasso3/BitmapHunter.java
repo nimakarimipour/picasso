@@ -42,6 +42,7 @@ import static com.squareup.picasso3.Utils.VERB_REMOVED;
 import static com.squareup.picasso3.Utils.VERB_TRANSFORMED;
 import static com.squareup.picasso3.Utils.getLogIdsForHunter;
 import static com.squareup.picasso3.Utils.log;
+import org.jspecify.annotations.NullUnmarked;
 
 class BitmapHunter implements Runnable {
   private static final ThreadLocal<StringBuilder> NAME_BUILDER = new ThreadLocal<StringBuilder>() {
@@ -72,11 +73,11 @@ class BitmapHunter implements Runnable {
   Request data;
   final RequestHandler requestHandler;
 
-  Action action;
-  List<Action> actions;
-  Result result;
-  Future<?> future;
-  Exception exception;
+  @Nullable Action action;
+  @SuppressWarnings("NullAway.Init") List<Action> actions;
+  @SuppressWarnings("NullAway.Init") Result result;
+  @Nullable Future<?> future;
+  @SuppressWarnings("NullAway.Init") Exception exception;
   int retryCount;
   Priority priority;
 
@@ -135,7 +136,7 @@ class BitmapHunter implements Runnable {
     }
   }
 
-  Result hunt() throws IOException {
+  @NullUnmarked Result hunt() throws IOException {
     if (shouldReadFromMemoryCache(data.memoryPolicy)) {
       Bitmap bitmap = cache.get(key);
       if (bitmap != null) {
@@ -304,7 +305,7 @@ class BitmapHunter implements Runnable {
     return future != null && future.isCancelled();
   }
 
-  boolean shouldRetry(boolean airplaneMode, NetworkInfo info) {
+  boolean shouldRetry(boolean airplaneMode, @Nullable NetworkInfo info) {
     boolean hasRetries = retryCount > 0;
     if (!hasRetries) {
       return false;
@@ -329,7 +330,7 @@ class BitmapHunter implements Runnable {
     return data;
   }
 
-  Action getAction() {
+  @Nullable Action getAction() {
     return action;
   }
 
@@ -376,7 +377,7 @@ class BitmapHunter implements Runnable {
     return new BitmapHunter(picasso, dispatcher, cache, stats, action, ERRORING_HANDLER);
   }
 
-  static Result applyTransformations(Picasso picasso, Request data,
+  @NullUnmarked @Nullable static Result applyTransformations(Picasso picasso, Request data,
       List<Transformation> transformations, Result result) {
     for (int i = 0, count = transformations.size(); i < count; i++) {
       final Transformation transformation = transformations.get(i);

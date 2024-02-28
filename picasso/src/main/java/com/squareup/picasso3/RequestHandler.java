@@ -37,6 +37,7 @@ import okio.Okio;
 import okio.Source;
 
 import static com.squareup.picasso3.Utils.checkNotNull;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * {@code RequestHandler} allows you to extend Picasso to load images in ways that are not
@@ -160,7 +161,7 @@ public abstract class RequestHandler {
    * Lazily create {@link BitmapFactory.Options} based in given
    * {@link Request}, only instantiating them if needed.
    */
-  static BitmapFactory.Options createBitmapOptions(Request data) {
+  @NullUnmarked static BitmapFactory.Options createBitmapOptions(Request data) {
     final boolean justBounds = data.hasSize();
     final boolean hasConfig = data.config != null;
     BitmapFactory.Options options = null;
@@ -218,7 +219,7 @@ public abstract class RequestHandler {
    * about the supplied request in order to do the decoding efficiently (such as through leveraging
    * {@code inSampleSize}).
    */
-  static Bitmap decodeStream(Source source, Request request) throws IOException {
+  static Bitmap decodeStream(@Nullable Source source, Request request) throws IOException {
     BufferedSource bufferedSource = Okio.buffer(source);
 
     if (Build.VERSION.SDK_INT >= 28) {

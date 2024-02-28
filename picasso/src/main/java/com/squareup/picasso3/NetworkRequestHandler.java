@@ -27,6 +27,7 @@ import okhttp3.ResponseBody;
 
 import static com.squareup.picasso3.Picasso.LoadedFrom.DISK;
 import static com.squareup.picasso3.Picasso.LoadedFrom.NETWORK;
+import org.jspecify.annotations.NullUnmarked;
 
 final class NetworkRequestHandler extends RequestHandler {
   private static final String SCHEME_HTTP = "http";
@@ -40,7 +41,7 @@ final class NetworkRequestHandler extends RequestHandler {
     this.stats = stats;
   }
 
-  @Override public boolean canHandleRequest(@NonNull Request data) {
+  @NullUnmarked @Override public boolean canHandleRequest(@NonNull Request data) {
     String scheme = data.uri.getScheme();
     return (SCHEME_HTTP.equals(scheme) || SCHEME_HTTPS.equals(scheme));
   }
@@ -98,7 +99,7 @@ final class NetworkRequestHandler extends RequestHandler {
     return true;
   }
 
-  private static okhttp3.Request createRequest(Request request) {
+  @NullUnmarked private static okhttp3.Request createRequest(Request request) {
     CacheControl cacheControl = null;
     int networkPolicy = request.networkPolicy;
     if (networkPolicy != 0) {

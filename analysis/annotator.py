@@ -26,11 +26,11 @@ def run_annotator():
     commands += ['-cp', '{}/paths.tsv'.format(OUT_DIR)]
     commands += ['-i', 'com.uber.nullaway.annotations.Initializer']
     commands += ['-n', 'android.support.annotation.Nullable']
-    # commands += ['-sre', 'org.jspecify.annotations.NullUnmarked']
+    commands += ['-sre', 'org.jspecify.annotations.NullUnmarked']
     commands += ['-cn', 'NULLAWAY']
     commands += ["--depth", "10"]
     # Uncomment to see build output
-    commands += ['-rboserr']
+    # commands += ['-rboserr']
     # Uncomment to disable outer loop
     # commands += ['-dol']
     # Uncomment to disable parallel processing

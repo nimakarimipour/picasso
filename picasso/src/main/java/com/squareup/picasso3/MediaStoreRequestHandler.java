@@ -36,6 +36,7 @@ import static com.squareup.picasso3.MediaStoreRequestHandler.PicassoKind.FULL;
 import static com.squareup.picasso3.MediaStoreRequestHandler.PicassoKind.MICRO;
 import static com.squareup.picasso3.MediaStoreRequestHandler.PicassoKind.MINI;
 import static com.squareup.picasso3.Picasso.LoadedFrom.DISK;
+import org.jspecify.annotations.NullUnmarked;
 
 class MediaStoreRequestHandler extends ContentStreamRequestHandler {
   private static final String[] CONTENT_ORIENTATION = new String[] {
@@ -46,7 +47,7 @@ class MediaStoreRequestHandler extends ContentStreamRequestHandler {
     super(context);
   }
 
-  @Override public boolean canHandleRequest(@NonNull Request data) {
+  @NullUnmarked @Override public boolean canHandleRequest(@NonNull Request data) {
     final Uri uri = data.uri;
     return (SCHEME_CONTENT.equals(uri.getScheme())
             && MediaStore.AUTHORITY.equals(uri.getAuthority()));

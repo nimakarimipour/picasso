@@ -51,6 +51,7 @@ import static com.squareup.picasso3.Utils.VERB_CREATED;
 import static com.squareup.picasso3.Utils.checkMain;
 import static com.squareup.picasso3.Utils.checkNotMain;
 import static com.squareup.picasso3.Utils.log;
+import org.jspecify.annotations.NullUnmarked;
 
 /** Fluent API for building an image download request. */
 @SuppressWarnings("UnusedDeclaration") // Public API.
@@ -66,9 +67,9 @@ public class RequestCreator {
   private int placeholderResId;
   private int errorResId;
   private @Nullable Drawable placeholderDrawable;
-  private Drawable errorDrawable;
+  @Nullable private Drawable errorDrawable;
 
-  RequestCreator(Picasso picasso, Uri uri, int resourceId) {
+  RequestCreator(Picasso picasso, @Nullable Uri uri, int resourceId) {
     if (picasso.shutdown) {
       throw new IllegalStateException(
           "Picasso instance already shut down. Cannot submit new requests.");
@@ -77,7 +78,7 @@ public class RequestCreator {
     this.data = new Request.Builder(uri, resourceId, picasso.defaultBitmapConfig);
   }
 
-  @VisibleForTesting RequestCreator() {
+  @NullUnmarked @VisibleForTesting RequestCreator() {
     this.picasso = null;
     this.data = new Request.Builder(null, 0, null);
   }
@@ -216,7 +217,7 @@ public class RequestCreator {
   }
 
   /** Internal use only. Used by {@link DeferredRequestCreator}. */
-  Object getTag() {
+  @Nullable Object getTag() {
     return data.getTag();
   }
 
@@ -734,7 +735,7 @@ public class RequestCreator {
     picasso.enqueueAndSubmit(action);
   }
 
-  private Drawable getPlaceholderDrawable() {
+  @Nullable private Drawable getPlaceholderDrawable() {
     return placeholderResId == 0
         ? placeholderDrawable
         : ContextCompat.getDrawable(picasso.context, placeholderResId);

@@ -17,6 +17,7 @@ package com.squareup.picasso3;
 
 import android.graphics.Bitmap;
 import android.support.v4.content.ContextCompat;
+import android.support.annotation.Nullable;
 
 final class BitmapTargetAction extends Action<BitmapTarget> {
 

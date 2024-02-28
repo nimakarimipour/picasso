@@ -16,6 +16,8 @@
 package com.squareup.picasso3;
 
 import static com.squareup.picasso3.Picasso.Priority;
+import android.support.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 abstract class Action<T> {
   final Picasso picasso;
@@ -25,7 +27,7 @@ abstract class Action<T> {
   boolean willReplay;
   boolean cancelled;
 
-  Action(Picasso picasso, Target<T> wrapper, Request request) {
+  @NullUnmarked Action(Picasso picasso, @Nullable Target<T> wrapper, Request request) {
     this.picasso = picasso;
     this.request = request;
     this.wrapper = wrapper;
@@ -63,7 +65,7 @@ abstract class Action<T> {
     return picasso;
   }
 
-  Priority getPriority() {
+  @NullUnmarked Priority getPriority() {
     return request.priority;
   }
 

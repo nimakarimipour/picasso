@@ -55,6 +55,7 @@ import static com.squareup.picasso3.Utils.checkMain;
 import static com.squareup.picasso3.Utils.checkNotNull;
 import static com.squareup.picasso3.Utils.createDefaultCacheDir;
 import static com.squareup.picasso3.Utils.log;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Image downloading, transformation, and caching manager.
@@ -124,7 +125,7 @@ public class Picasso implements LifecycleObserver {
     }
   };
 
-  private final Listener listener;
+  @Nullable private final Listener listener;
   private final List<RequestTransformer> requestTransformers;
   private final List<RequestHandler> requestHandlers;
 
@@ -135,7 +136,7 @@ public class Picasso implements LifecycleObserver {
   final Stats stats;
   final Map<Object, Action> targetToAction;
   final Map<ImageView, DeferredRequestCreator> targetToDeferredRequestCreator;
-  final Bitmap.Config defaultBitmapConfig;
+  @Nullable final Bitmap.Config defaultBitmapConfig;
 
   boolean indicatorsEnabled;
   volatile boolean loggingEnabled;
@@ -143,9 +144,9 @@ public class Picasso implements LifecycleObserver {
   boolean shutdown;
 
   Picasso(Context context, Dispatcher dispatcher, Call.Factory callFactory,
-      @Nullable okhttp3.Cache closeableCache, PlatformLruCache cache, Listener listener,
+      @Nullable okhttp3.Cache closeableCache, PlatformLruCache cache, @Nullable Listener listener,
       List<RequestTransformer> requestTransformers, List<RequestHandler> extraRequestHandlers,
-      Stats stats, Bitmap.Config defaultBitmapConfig, boolean indicatorsEnabled,
+      Stats stats, @Nullable Bitmap.Config defaultBitmapConfig, boolean indicatorsEnabled,
       boolean loggingEnabled) {
     this.context = context;
     this.dispatcher = dispatcher;
@@ -538,7 +539,7 @@ public class Picasso implements LifecycleObserver {
     dispatcher.dispatchSubmit(action);
   }
 
-  Bitmap quickMemoryCacheCheck(String key) {
+  @Nullable Bitmap quickMemoryCacheCheck(String key) {
     Bitmap cached = cache.get(key);
     if (cached != null) {
       stats.dispatchCacheHit();
@@ -548,7 +549,7 @@ public class Picasso implements LifecycleObserver {
     return cached;
   }
 
-  void complete(BitmapHunter hunter) {
+  @NullUnmarked void complete(BitmapHunter hunter) {
     Action single = hunter.getAction();
     List<Action> joined = hunter.getActions();
 
@@ -580,7 +581,7 @@ public class Picasso implements LifecycleObserver {
     }
   }
 
-  void resumeAction(Action action) {
+  @NullUnmarked void resumeAction(Action action) {
     Bitmap bitmap = null;
     if (shouldReadFromMemoryCache(action.request.memoryPolicy)) {
       bitmap = quickMemoryCacheCheck(action.getKey());
@@ -642,13 +643,13 @@ public class Picasso implements LifecycleObserver {
   @SuppressWarnings("UnusedDeclaration") // Public API.
   public static class Builder {
     private final Context context;
-    private Call.Factory callFactory;
-    private ExecutorService service;
-    private PlatformLruCache cache;
-    private Listener listener;
+    @Nullable private Call.Factory callFactory;
+    @Nullable private ExecutorService service;
+    @Nullable private PlatformLruCache cache;
+    @Nullable private Listener listener;
     private final List<RequestTransformer> requestTransformers = new ArrayList<>();
     private final List<RequestHandler> requestHandlers = new ArrayList<>();
-    private Bitmap.Config defaultBitmapConfig;
+    @Nullable private Bitmap.Config defaultBitmapConfig;
 
     private boolean indicatorsEnabled;
     private boolean loggingEnabled;
