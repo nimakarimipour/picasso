@@ -40,6 +40,8 @@ dependencies {
 
   annotationProcessor deps.nullaway
   annotationProcessor "edu.ucr.cs.riple.annotator:annotator-scanner:1.3.13-java-8-SNAPSHOT"
+  compileOnly "org.jspecify:jspecify:0.3.0"
+  compileOnly "com.uber.nullaway:nullaway-annotations:0.10.10"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
