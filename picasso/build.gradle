@@ -39,6 +39,16 @@ dependencies {
   testImplementation deps.mockWebServer
 
   annotationProcessor deps.nullaway
+  annotationProcessor "edu.ucr.cs.riple.annot-util:AnnotLocator:1.0-SNAPSHOT"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+tasks.withType(JavaCompile) {
+    if (!name.toLowerCase().contains("test")) {
+      // NullAway args
+      options.compilerArgs += [
+          '-Xep:AnnotLocator:ERROR',
+      ]
+    }
+  }
