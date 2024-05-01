@@ -65,10 +65,10 @@ public class RequestCreator {
   private boolean setPlaceholder = true;
   private int placeholderResId;
   private int errorResId;
-  @Nullable private Drawable placeholderDrawable;
-  @Nullable private Drawable errorDrawable;
+   private Drawable placeholderDrawable;
+   private Drawable errorDrawable;
 
-  RequestCreator(Picasso picasso, @Nullable Uri uri, int resourceId) {
+  RequestCreator(Picasso picasso,  Uri uri, int resourceId) {
     if (picasso.shutdown) {
       throw new IllegalStateException(
           "Picasso instance already shut down. Cannot submit new requests.");
@@ -77,7 +77,6 @@ public class RequestCreator {
     this.data = new Request.Builder(uri, resourceId, picasso.defaultBitmapConfig);
   }
 
-  @SuppressWarnings("NullAway")
   @VisibleForTesting RequestCreator() {
     this.picasso = null;
     this.data = new Request.Builder(null, 0, null);
@@ -217,7 +216,7 @@ public class RequestCreator {
   }
 
   /** Internal use only. Used by {@link DeferredRequestCreator}. */
-  @Nullable Object getTag() {
+   Object getTag() {
     return data.getTag();
   }
 
@@ -396,7 +395,7 @@ public class RequestCreator {
   /**
    * Synchronously fulfill this request. Must not be called from the main thread.
    */
-  @Nullable // TODO make non-null and always throw?
+   // TODO make non-null and always throw?
   public Bitmap get() throws IOException {
     long started = System.nanoTime();
     checkNotMain();
@@ -439,7 +438,7 @@ public class RequestCreator {
    * {@link android.app.Activity} or {@link android.app.Fragment} from being garbage collected
    * until the request is completed.
    */
-  public void fetch(@Nullable Callback callback) {
+  public void fetch( Callback callback) {
     long started = System.nanoTime();
 
     if (deferred) {
@@ -564,7 +563,7 @@ public class RequestCreator {
    * given {@code viewId}. This is used for loading bitmaps into a {@link Notification}.
    */
   public void into(@NonNull RemoteViews remoteViews, @IdRes int viewId, int notificationId,
-      @NonNull Notification notification, @Nullable String notificationTag) {
+      @NonNull Notification notification,  String notificationTag) {
     into(remoteViews, viewId, notificationId, notification, notificationTag, null);
   }
 
@@ -573,8 +572,8 @@ public class RequestCreator {
    * given {@code viewId}. This is used for loading bitmaps into a {@link Notification}.
    */
   public void into(@NonNull RemoteViews remoteViews, @IdRes int viewId, int notificationId,
-      @NonNull Notification notification, @Nullable String notificationTag,
-      @Nullable Callback callback) {
+      @NonNull Notification notification,  String notificationTag,
+       Callback callback) {
     long started = System.nanoTime();
 
     if (remoteViews == null) {
@@ -623,7 +622,7 @@ public class RequestCreator {
    * given {@code viewId}. This is used for loading bitmaps into all instances of a widget.
    */
   public void into(@NonNull RemoteViews remoteViews, @IdRes int viewId, int appWidgetId,
-      @Nullable Callback callback) {
+       Callback callback) {
     into(remoteViews, viewId, new int[] { appWidgetId }, callback);
   }
 
@@ -632,7 +631,7 @@ public class RequestCreator {
    * given {@code viewId}. This is used for loading bitmaps into all instances of a widget.
    */
   public void into(@NonNull RemoteViews remoteViews, @IdRes int viewId, @NonNull int[] appWidgetIds,
-      @Nullable Callback callback) {
+       Callback callback) {
     long started = System.nanoTime();
 
     if (remoteViews == null) {
@@ -676,7 +675,7 @@ public class RequestCreator {
    * you use this method, it is <b>strongly</b> recommended you invoke an adjacent
    * {@link Picasso#cancelRequest(android.widget.ImageView)} call to prevent temporary leaking.
    */
-  public void into(@NonNull ImageView target, @Nullable Callback callback) {
+  public void into(@NonNull ImageView target,  Callback callback) {
     long started = System.nanoTime();
     checkMain();
 
@@ -735,7 +734,7 @@ public class RequestCreator {
     picasso.enqueueAndSubmit(action);
   }
 
-  private @Nullable Drawable getPlaceholderDrawable() {
+  private  Drawable getPlaceholderDrawable() {
     return placeholderResId == 0
         ? placeholderDrawable
         : ContextCompat.getDrawable(picasso.context, placeholderResId);

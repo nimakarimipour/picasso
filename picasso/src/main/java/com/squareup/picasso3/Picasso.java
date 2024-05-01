@@ -124,18 +124,18 @@ public class Picasso implements LifecycleObserver {
     }
   };
 
-  @Nullable private final Listener listener;
+   private final Listener listener;
   private final List<RequestTransformer> requestTransformers;
   private final List<RequestHandler> requestHandlers;
 
   final Context context;
   final Dispatcher dispatcher;
-  private final @Nullable okhttp3.Cache closeableCache;
+  private final  okhttp3.Cache closeableCache;
   final PlatformLruCache cache;
   final Stats stats;
   final Map<Object, Action> targetToAction;
   final Map<ImageView, DeferredRequestCreator> targetToDeferredRequestCreator;
-  @Nullable final Bitmap.Config defaultBitmapConfig;
+   final Bitmap.Config defaultBitmapConfig;
 
   boolean indicatorsEnabled;
   volatile boolean loggingEnabled;
@@ -143,9 +143,9 @@ public class Picasso implements LifecycleObserver {
   boolean shutdown;
 
   Picasso(Context context, Dispatcher dispatcher, Call.Factory callFactory,
-      @Nullable okhttp3.Cache closeableCache, PlatformLruCache cache, @Nullable Listener listener,
+       okhttp3.Cache closeableCache, PlatformLruCache cache,  Listener listener,
       List<RequestTransformer> requestTransformers, List<RequestHandler> extraRequestHandlers,
-      Stats stats, @Nullable Bitmap.Config defaultBitmapConfig, boolean indicatorsEnabled,
+      Stats stats,  Bitmap.Config defaultBitmapConfig, boolean indicatorsEnabled,
       boolean loggingEnabled) {
     this.context = context;
     this.dispatcher = dispatcher;
@@ -335,7 +335,7 @@ public class Picasso implements LifecycleObserver {
    * @see #load(int)
    */
   @NonNull
-  public RequestCreator load(@Nullable Uri uri) {
+  public RequestCreator load( Uri uri) {
     return new RequestCreator(this, uri, 0);
   }
 
@@ -355,7 +355,7 @@ public class Picasso implements LifecycleObserver {
    * @see #load(int)
    */
   @NonNull
-  public RequestCreator load(@Nullable String path) {
+  public RequestCreator load( String path) {
     if (path == null) {
       return new RequestCreator(this, null, 0);
     }
@@ -379,7 +379,7 @@ public class Picasso implements LifecycleObserver {
    * @see #load(int)
    */
   @NonNull
-  public RequestCreator load(@Nullable File file) {
+  public RequestCreator load( File file) {
     if (file == null) {
       return new RequestCreator(this, null, 0);
     }
@@ -414,7 +414,7 @@ public class Picasso implements LifecycleObserver {
    * @see #invalidate(String)
    * @see #invalidate(File)
    */
-  public void invalidate(@Nullable Uri uri) {
+  public void invalidate( Uri uri) {
     if (uri != null) {
       cache.clearKeyUri(uri.toString());
     }
@@ -427,7 +427,7 @@ public class Picasso implements LifecycleObserver {
    * @see #invalidate(Uri)
    * @see #invalidate(File)
    */
-  public void invalidate(@Nullable String path) {
+  public void invalidate( String path) {
     if (path != null) {
       invalidate(Uri.parse(path));
     }
@@ -544,7 +544,7 @@ public class Picasso implements LifecycleObserver {
     dispatcher.dispatchSubmit(action);
   }
 
-  @Nullable Bitmap quickMemoryCacheCheck(String key) {
+   Bitmap quickMemoryCacheCheck(String key) {
     Bitmap cached = cache.get(key);
     if (cached != null) {
       stats.dispatchCacheHit();
@@ -607,8 +607,8 @@ public class Picasso implements LifecycleObserver {
     }
   }
 
-  private void deliverAction(@Nullable RequestHandler.Result result, Action action,
-      @Nullable Exception e) {
+  private void deliverAction( RequestHandler.Result result, Action action,
+       Exception e) {
     if (action.isCancelled()) {
       return;
     }
@@ -650,13 +650,13 @@ public class Picasso implements LifecycleObserver {
   @SuppressWarnings("UnusedDeclaration") // Public API.
   public static class Builder {
     private final Context context;
-    @Nullable private Call.Factory callFactory;
-    @Nullable private ExecutorService service;
-    @Nullable private PlatformLruCache cache;
-    @Nullable private Listener listener;
+     private Call.Factory callFactory;
+     private ExecutorService service;
+     private PlatformLruCache cache;
+     private Listener listener;
     private final List<RequestTransformer> requestTransformers = new ArrayList<>();
     private final List<RequestHandler> requestHandlers = new ArrayList<>();
-    @Nullable private Bitmap.Config defaultBitmapConfig;
+     private Bitmap.Config defaultBitmapConfig;
 
     private boolean indicatorsEnabled;
     private boolean loggingEnabled;

@@ -46,7 +46,7 @@ public interface BitmapTarget {
    * specified via {@link RequestCreator#error(android.graphics.drawable.Drawable)}
    * or {@link RequestCreator#error(int)}.
    */
-  void onBitmapFailed(@NonNull Exception e, @Nullable Drawable errorDrawable);
+  void onBitmapFailed(@NonNull Exception e,  Drawable errorDrawable);
 
   /**
    * Callback invoked right before your request is submitted.
@@ -55,5 +55,5 @@ public interface BitmapTarget {
    * specified via {@link RequestCreator#placeholder(android.graphics.drawable.Drawable)}
    * or {@link RequestCreator#placeholder(int)}.
    */
-  void onPrepareLoad(@Nullable Drawable placeHolderDrawable);
+  void onPrepareLoad( Drawable placeHolderDrawable);
 }

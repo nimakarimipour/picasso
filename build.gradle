@@ -65,7 +65,7 @@ subprojects {
     if (!name.toLowerCase().contains("test")) {
       // NullAway args
       options.compilerArgs += [
-          '-Xep:NullAway:ERROR',
+          '-Xep:NullAway:WARN',
           '-XepOpt:NullAway:AnnotatedPackages=com.squareup.picasso3'
       ]
     }

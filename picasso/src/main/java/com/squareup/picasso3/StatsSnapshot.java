@@ -129,7 +129,7 @@ public final class StatsSnapshot {
     sink.writeUtf8("\n");
   }
 
-  @Nullable
+  
   @Override public String toString() {
     return "StatsSnapshot{"
         + "maxSize="

@@ -52,7 +52,7 @@ public final class Request {
    * <p>
    * This is mutually exclusive with {@link #resourceId}.
    */
-  @Nullable
+  
   public final Uri uri;
   /**
    * The image resource ID.
@@ -64,7 +64,7 @@ public final class Request {
    * Optional stable key for this request to be used instead of the URI or resource ID when
    * caching. Two requests with the same value are considered to be for the same resource.
    */
-  @Nullable
+  
   public final String stableKey;
   /** List of custom transformations to be applied after the built-in transformations. */
   final List<Transformation> transformations;
@@ -98,7 +98,7 @@ public final class Request {
   /** True if image should be decoded with inPurgeable and inInputShareable. */
   public final boolean purgeable;
   /** Target image config for decoding. */
-  @Nullable
+  
   public final Bitmap.Config config;
   /** The priority of this request. */
   @NonNull
@@ -107,7 +107,7 @@ public final class Request {
   @NonNull
   public final String key;
   /** User-provided value to track this request. */
-  @Nullable
+  
   public final Object tag;
 
   Request(Builder builder) {
@@ -268,9 +268,9 @@ public final class Request {
 
   /** Builder for creating {@link Request} instances. */
   public static final class Builder {
-    @Nullable Uri uri;
+     Uri uri;
     int resourceId;
-    @Nullable String stableKey;
+     String stableKey;
     int targetWidth;
     int targetHeight;
     boolean centerCrop;
@@ -282,10 +282,10 @@ public final class Request {
     float rotationPivotY;
     boolean hasRotationPivot;
     boolean purgeable;
-    @Nullable List<Transformation> transformations;
-    @Nullable Bitmap.Config config;
-    @Nullable Priority priority;
-    @Nullable Object tag;
+     List<Transformation> transformations;
+     Bitmap.Config config;
+     Priority priority;
+     Object tag;
     int memoryPolicy;
     int networkPolicy;
 
@@ -299,7 +299,7 @@ public final class Request {
       setResourceId(resourceId);
     }
 
-    Builder(@Nullable Uri uri, int resourceId, @Nullable Bitmap.Config bitmapConfig) {
+    Builder( Uri uri, int resourceId,  Bitmap.Config bitmapConfig) {
       this.uri = uri;
       this.resourceId = resourceId;
       this.config = bitmapConfig;
@@ -376,7 +376,7 @@ public final class Request {
      * Two requests with the same value are considered to be for the same resource.
      */
     @NonNull
-    public Builder stableKey(@Nullable String stableKey) {
+    public Builder stableKey( String stableKey) {
       this.stableKey = stableKey;
       return this;
     }
@@ -403,7 +403,7 @@ public final class Request {
     }
 
     /** Internal use only. Used by {@link DeferredRequestCreator}. */
-    @Nullable Object getTag() {
+     Object getTag() {
       return tag;
     }
 
