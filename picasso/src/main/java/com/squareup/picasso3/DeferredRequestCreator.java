@@ -15,7 +15,6 @@
  */
 package com.squareup.picasso3;
 
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.view.View.OnAttachStateChangeListener;
@@ -26,9 +25,9 @@ import android.widget.ImageView;
 class DeferredRequestCreator implements OnPreDrawListener, OnAttachStateChangeListener {
   private final RequestCreator creator;
   @VisibleForTesting final ImageView target;
-  @VisibleForTesting @Nullable Callback callback;
+  @VisibleForTesting Callback callback;
 
-  DeferredRequestCreator(RequestCreator creator, ImageView target, @Nullable Callback callback) {
+  DeferredRequestCreator(RequestCreator creator, ImageView target, Callback callback) {
     this.creator = creator;
     this.target = target;
     this.callback = callback;
@@ -84,7 +83,7 @@ class DeferredRequestCreator implements OnPreDrawListener, OnAttachStateChangeLi
     }
   }
 
-  @Nullable Object getTag() {
+  Object getTag() {
     return creator.getTag();
   }
 }

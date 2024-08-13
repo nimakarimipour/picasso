@@ -15,14 +15,12 @@
  */
 package com.squareup.picasso3;
 
-import android.support.annotation.Nullable;
-
 class FetchAction extends Action<Object> {
 
   private final Object fetchTarget;
-  @Nullable private Callback callback;
+  private Callback callback;
 
-  FetchAction(Picasso picasso, Request data, @Nullable Callback callback) {
+  FetchAction(Picasso picasso, Request data, Callback callback) {
     super(picasso, null, data);
     this.fetchTarget = new Object();
     this.callback = callback;

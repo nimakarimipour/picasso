@@ -65,10 +65,10 @@ public class RequestCreator {
   private boolean setPlaceholder = true;
   private int placeholderResId;
   private int errorResId;
-  @Nullable private Drawable placeholderDrawable;
-  @Nullable private Drawable errorDrawable;
+  private @Nullable Drawable placeholderDrawable;
+  private Drawable errorDrawable;
 
-  RequestCreator(Picasso picasso, @Nullable Uri uri, int resourceId) {
+  RequestCreator(Picasso picasso, Uri uri, int resourceId) {
     if (picasso.shutdown) {
       throw new IllegalStateException(
           "Picasso instance already shut down. Cannot submit new requests.");
@@ -77,7 +77,6 @@ public class RequestCreator {
     this.data = new Request.Builder(uri, resourceId, picasso.defaultBitmapConfig);
   }
 
-  @SuppressWarnings("NullAway")
   @VisibleForTesting RequestCreator() {
     this.picasso = null;
     this.data = new Request.Builder(null, 0, null);
@@ -217,7 +216,7 @@ public class RequestCreator {
   }
 
   /** Internal use only. Used by {@link DeferredRequestCreator}. */
-  @Nullable Object getTag() {
+  Object getTag() {
     return data.getTag();
   }
 
@@ -735,7 +734,7 @@ public class RequestCreator {
     picasso.enqueueAndSubmit(action);
   }
 
-  private @Nullable Drawable getPlaceholderDrawable() {
+  private Drawable getPlaceholderDrawable() {
     return placeholderResId == 0
         ? placeholderDrawable
         : ContextCompat.getDrawable(picasso.context, placeholderResId);

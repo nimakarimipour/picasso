@@ -124,7 +124,7 @@ public class Picasso implements LifecycleObserver {
     }
   };
 
-  @Nullable private final Listener listener;
+  private final Listener listener;
   private final List<RequestTransformer> requestTransformers;
   private final List<RequestHandler> requestHandlers;
 
@@ -135,7 +135,7 @@ public class Picasso implements LifecycleObserver {
   final Stats stats;
   final Map<Object, Action> targetToAction;
   final Map<ImageView, DeferredRequestCreator> targetToDeferredRequestCreator;
-  @Nullable final Bitmap.Config defaultBitmapConfig;
+  final Bitmap.Config defaultBitmapConfig;
 
   boolean indicatorsEnabled;
   volatile boolean loggingEnabled;
@@ -143,9 +143,9 @@ public class Picasso implements LifecycleObserver {
   boolean shutdown;
 
   Picasso(Context context, Dispatcher dispatcher, Call.Factory callFactory,
-      @Nullable okhttp3.Cache closeableCache, PlatformLruCache cache, @Nullable Listener listener,
+      @Nullable okhttp3.Cache closeableCache, PlatformLruCache cache, Listener listener,
       List<RequestTransformer> requestTransformers, List<RequestHandler> extraRequestHandlers,
-      Stats stats, @Nullable Bitmap.Config defaultBitmapConfig, boolean indicatorsEnabled,
+      Stats stats, Bitmap.Config defaultBitmapConfig, boolean indicatorsEnabled,
       boolean loggingEnabled) {
     this.context = context;
     this.dispatcher = dispatcher;
@@ -270,10 +270,7 @@ public class Picasso implements LifecycleObserver {
     //noinspection ForLoopReplaceableByForEach
     for (int i = 0, n = deferredRequestCreators.size(); i < n; i++) {
       DeferredRequestCreator deferredRequestCreator = deferredRequestCreators.get(i);
-      Object tag = deferredRequestCreator.getTag();
-      if (tag != null) {
-        dispatcher.dispatchPauseTag(tag);
-      }
+      dispatcher.dispatchPauseTag(deferredRequestCreator.getTag());
     }
   }
 
@@ -305,10 +302,7 @@ public class Picasso implements LifecycleObserver {
     //noinspection ForLoopReplaceableByForEach
     for (int i = 0, n = deferredRequestCreators.size(); i < n; i++) {
       DeferredRequestCreator deferredRequestCreator = deferredRequestCreators.get(i);
-      Object tag = deferredRequestCreator.getTag();
-      if (tag != null) {
-        dispatcher.dispatchResumeTag(tag);
-      }
+      dispatcher.dispatchResumeTag(deferredRequestCreator.getTag());
     }
   }
 
@@ -544,7 +538,7 @@ public class Picasso implements LifecycleObserver {
     dispatcher.dispatchSubmit(action);
   }
 
-  @Nullable Bitmap quickMemoryCacheCheck(String key) {
+  Bitmap quickMemoryCacheCheck(String key) {
     Bitmap cached = cache.get(key);
     if (cached != null) {
       stats.dispatchCacheHit();
@@ -565,7 +559,7 @@ public class Picasso implements LifecycleObserver {
       return;
     }
 
-    Uri uri = checkNotNull(hunter.getData().uri, "uri == null");
+    Uri uri = hunter.getData().uri;
     Exception exception = hunter.getException();
     RequestHandler.Result result = hunter.getResult();
 
@@ -573,7 +567,7 @@ public class Picasso implements LifecycleObserver {
       deliverAction(result, single, exception);
     }
 
-    if (joined != null) {
+    if (hasMultiple) {
       //noinspection ForLoopReplaceableByForEach
       for (int i = 0, n = joined.size(); i < n; i++) {
         Action join = joined.get(i);
@@ -607,8 +601,7 @@ public class Picasso implements LifecycleObserver {
     }
   }
 
-  private void deliverAction(@Nullable RequestHandler.Result result, Action action,
-      @Nullable Exception e) {
+  private void deliverAction(RequestHandler.Result result, Action action, Exception e) {
     if (action.isCancelled()) {
       return;
     }
@@ -621,10 +614,9 @@ public class Picasso implements LifecycleObserver {
         log(OWNER_MAIN, VERB_COMPLETED, action.request.logId(), "from " + result.getLoadedFrom());
       }
     } else {
-      Exception exception = checkNotNull(e, "e == null");
-      action.error(exception);
+      action.error(e);
       if (loggingEnabled) {
-        log(OWNER_MAIN, VERB_ERRORED, action.request.logId(), exception.getMessage());
+        log(OWNER_MAIN, VERB_ERRORED, action.request.logId(), e.getMessage());
       }
     }
   }
@@ -650,13 +642,13 @@ public class Picasso implements LifecycleObserver {
   @SuppressWarnings("UnusedDeclaration") // Public API.
   public static class Builder {
     private final Context context;
-    @Nullable private Call.Factory callFactory;
-    @Nullable private ExecutorService service;
-    @Nullable private PlatformLruCache cache;
-    @Nullable private Listener listener;
+    private Call.Factory callFactory;
+    private ExecutorService service;
+    private PlatformLruCache cache;
+    private Listener listener;
     private final List<RequestTransformer> requestTransformers = new ArrayList<>();
     private final List<RequestHandler> requestHandlers = new ArrayList<>();
-    @Nullable private Bitmap.Config defaultBitmapConfig;
+    private Bitmap.Config defaultBitmapConfig;
 
     private boolean indicatorsEnabled;
     private boolean loggingEnabled;

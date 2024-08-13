@@ -17,7 +17,6 @@ package com.squareup.picasso3;
 
 import android.graphics.Bitmap;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import java.io.IOException;
@@ -28,7 +27,6 @@ import okhttp3.ResponseBody;
 
 import static com.squareup.picasso3.Picasso.LoadedFrom.DISK;
 import static com.squareup.picasso3.Picasso.LoadedFrom.NETWORK;
-import static com.squareup.picasso3.Utils.checkNotNull;
 
 final class NetworkRequestHandler extends RequestHandler {
   private static final String SCHEME_HTTP = "http";
@@ -43,10 +41,7 @@ final class NetworkRequestHandler extends RequestHandler {
   }
 
   @Override public boolean canHandleRequest(@NonNull Request data) {
-    Uri uri = data.uri;
-    if (uri == null) return false;
-
-    String scheme = uri.getScheme();
+    String scheme = data.uri.getScheme();
     return (SCHEME_HTTP.equals(scheme) || SCHEME_HTTPS.equals(scheme));
   }
 
@@ -121,8 +116,7 @@ final class NetworkRequestHandler extends RequestHandler {
       }
     }
 
-    Uri uri = checkNotNull(request.uri, "request.uri == null");
-    okhttp3.Request.Builder builder = new okhttp3.Request.Builder().url(uri.toString());
+    okhttp3.Request.Builder builder = new okhttp3.Request.Builder().url(request.uri.toString());
     if (cacheControl != null) {
       builder.cacheControl(cacheControl);
     }

@@ -15,20 +15,17 @@
  */
 package com.squareup.picasso3;
 
-import android.support.annotation.Nullable;
-
 import static com.squareup.picasso3.Picasso.Priority;
-import static com.squareup.picasso3.Utils.checkNotNull;
 
 abstract class Action<T> {
   final Picasso picasso;
   final Request request;
-  @Nullable final Target<T> wrapper;
+  final Target<T> wrapper;
 
   boolean willReplay;
   boolean cancelled;
 
-  Action(Picasso picasso, @Nullable Target<T> wrapper, Request request) {
+  Action(Picasso picasso, Target<T> wrapper, Request request) {
     this.picasso = picasso;
     this.request = request;
     this.wrapper = wrapper;
@@ -47,7 +44,7 @@ abstract class Action<T> {
   }
 
   T getTarget() {
-    return checkNotNull(wrapper, "wrapper == null").target;
+    return wrapper.target;
   }
 
   String getKey() {

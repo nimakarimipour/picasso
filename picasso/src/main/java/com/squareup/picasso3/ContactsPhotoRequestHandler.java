@@ -22,7 +22,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import okio.Okio;
@@ -31,7 +30,6 @@ import okio.Source;
 import static android.content.ContentResolver.SCHEME_CONTENT;
 import static android.provider.ContactsContract.Contacts.openContactPhotoInputStream;
 import static com.squareup.picasso3.Picasso.LoadedFrom.DISK;
-import static com.squareup.picasso3.Utils.checkNotNull;
 
 class ContactsPhotoRequestHandler extends RequestHandler {
   /** A lookup uri (e.g. content://com.android.contacts/contacts/lookup/3570i61d948d30808e537) */
@@ -65,18 +63,22 @@ class ContactsPhotoRequestHandler extends RequestHandler {
 
   @Override public boolean canHandleRequest(@NonNull Request data) {
     final Uri uri = data.uri;
-    return uri != null
-        && SCHEME_CONTENT.equals(uri.getScheme())
+    return (SCHEME_CONTENT.equals(uri.getScheme())
         && ContactsContract.Contacts.CONTENT_URI.getHost().equals(uri.getHost())
-        && matcher.match(data.uri) != UriMatcher.NO_MATCH;
+        && matcher.match(data.uri) != UriMatcher.NO_MATCH);
   }
 
   @Override
   public void load(@NonNull Picasso picasso, @NonNull Request request, @NonNull Callback callback) {
     boolean signaledCallback = false;
     try {
-      Uri requestUri = checkNotNull(request.uri, "request.uri == null");
-      Source source = getSource(requestUri);
+      Source source = getSource(request);
+      if (source == null) {
+        signaledCallback = true;
+        callback.onError(new IOException("no contact found"));
+        return;
+      }
+
       Bitmap bitmap = decodeStream(source, request);
       signaledCallback = true;
       callback.onSuccess(new Result(bitmap, DISK));
@@ -87,14 +89,15 @@ class ContactsPhotoRequestHandler extends RequestHandler {
     }
   }
 
-  private Source getSource(Uri uri) throws IOException {
+  private Source getSource(Request data) throws IOException {
     ContentResolver contentResolver = context.getContentResolver();
+    Uri uri = data.uri;
     InputStream is;
     switch (matcher.match(uri)) {
       case ID_LOOKUP:
         uri = ContactsContract.Contacts.lookupContact(contentResolver, uri);
         if (uri == null) {
-          throw new IOException("no contact found");
+          return null;
         }
         // Resolved the uri to a contact uri, intentionally fall through to process the resolved uri
       case ID_CONTACT:
@@ -107,10 +110,6 @@ class ContactsPhotoRequestHandler extends RequestHandler {
       default:
         throw new IllegalStateException("Invalid uri: " + uri);
     }
-    if (is == null) {
-      throw new FileNotFoundException("can't open input stream, uri: " + uri);
-    }
-
-    return Okio.source(is);
+    return is == null ? null : Okio.source(is);
   }
 }

@@ -259,7 +259,7 @@ class Dispatcher {
         }
       }
 
-      if (joined != null) {
+      if (hasMultiple) {
         for (int i = joined.size() - 1; i >= 0; i--) {
           Action action = joined.get(i);
           if (!action.getTag().equals(tag)) {
@@ -322,9 +322,7 @@ class Dispatcher {
     if (scansNetworkChanges) {
       ConnectivityManager connectivityManager =
           ContextCompat.getSystemService(context, ConnectivityManager.class);
-      if (connectivityManager != null) {
-        networkInfo = connectivityManager.getActiveNetworkInfo();
-      }
+      networkInfo = connectivityManager.getActiveNetworkInfo();
     }
 
     if (hunter.shouldRetry(airplaneMode, networkInfo)) {
@@ -347,11 +345,9 @@ class Dispatcher {
   void performComplete(BitmapHunter hunter) {
     if (shouldWriteToMemoryCache(hunter.data.memoryPolicy)) {
       RequestHandler.Result result = hunter.getResult();
-      if (result != null) {
-        Bitmap bitmap = result.getBitmap();
-        if (bitmap != null) {
-          cache.set(hunter.getKey(), bitmap);
-        }
+      Bitmap bitmap = result.getBitmap();
+      if (bitmap != null) {
+        cache.set(hunter.getKey(), bitmap);
       }
     }
     hunterMap.remove(hunter.getKey());

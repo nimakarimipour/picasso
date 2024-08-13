@@ -18,8 +18,6 @@ package com.squareup.picasso3;
 import android.graphics.Bitmap;
 import android.support.v4.content.ContextCompat;
 
-import static com.squareup.picasso3.Utils.checkNotNull;
-
 final class BitmapTargetAction extends Action<BitmapTarget> {
 
   BitmapTargetAction(Picasso picasso, Target<BitmapTarget> wrapper, Request data) {
@@ -43,7 +41,6 @@ final class BitmapTargetAction extends Action<BitmapTarget> {
 
   @Override void error(Exception e) {
     BitmapTarget target = getTarget();
-    Target<BitmapTarget> wrapper = checkNotNull(this.wrapper, "wrapper == null");
     if (wrapper.errorResId != 0) {
       target.onBitmapFailed(e,
           ContextCompat.getDrawable(picasso.context, wrapper.errorResId));

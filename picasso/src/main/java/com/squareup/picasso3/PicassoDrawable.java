@@ -26,7 +26,6 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import static android.graphics.Color.WHITE;
@@ -70,7 +69,7 @@ final class PicassoDrawable extends BitmapDrawable {
    * Create or update the drawable on the target {@link ImageView} to display the supplied
    * placeholder image.
    */
-  static void setPlaceholder(ImageView target, @Nullable Drawable placeholderDrawable) {
+  static void setPlaceholder(ImageView target, Drawable placeholderDrawable) {
     target.setImageDrawable(placeholderDrawable);
     if (target.getDrawable() instanceof Animatable) {
       ((Animatable) target.getDrawable()).start();
@@ -81,13 +80,13 @@ final class PicassoDrawable extends BitmapDrawable {
   private final float density;
   private final Picasso.LoadedFrom loadedFrom;
 
-  @Nullable Drawable placeholder;
+  Drawable placeholder;
 
   long startTimeMillis;
   boolean animating;
   int alpha = 0xFF;
 
-  PicassoDrawable(Context context, Bitmap bitmap, @Nullable Drawable placeholder,
+  PicassoDrawable(Context context, Bitmap bitmap, Drawable placeholder,
       Picasso.LoadedFrom loadedFrom, boolean noFade, boolean debugging) {
     super(context.getResources(), bitmap);
 

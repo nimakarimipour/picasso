@@ -27,7 +27,6 @@ import android.os.Process;
 import android.os.StatFs;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import java.io.File;
@@ -97,7 +96,7 @@ final class Utils {
     // No instances.
   }
 
-  public static @NonNull <T> T checkNotNull(@Nullable T value, @Nullable String message) {
+  static <T> T checkNotNull(T value, String message) {
     if (value == null) {
       throw new NullPointerException(message);
     }
@@ -144,10 +143,7 @@ final class Utils {
     log(owner, verb, logId, "");
   }
 
-  static void log(String owner, String verb, String logId, @Nullable String extras) {
-    if (extras == null) {
-      extras = "";
-    }
+  static void log(String owner, String verb, String logId, String extras) {
     Log.d(TAG, format("%1$-11s %2$-12s %3$s %4$s", owner, verb, logId, extras));
   }
 

@@ -36,7 +36,6 @@ import static com.squareup.picasso3.MediaStoreRequestHandler.PicassoKind.FULL;
 import static com.squareup.picasso3.MediaStoreRequestHandler.PicassoKind.MICRO;
 import static com.squareup.picasso3.MediaStoreRequestHandler.PicassoKind.MINI;
 import static com.squareup.picasso3.Picasso.LoadedFrom.DISK;
-import static com.squareup.picasso3.Utils.checkNotNull;
 
 class MediaStoreRequestHandler extends ContentStreamRequestHandler {
   private static final String[] CONTENT_ORIENTATION = new String[] {
@@ -49,9 +48,8 @@ class MediaStoreRequestHandler extends ContentStreamRequestHandler {
 
   @Override public boolean canHandleRequest(@NonNull Request data) {
     final Uri uri = data.uri;
-    return uri != null
-        && SCHEME_CONTENT.equals(uri.getScheme())
-        && MediaStore.AUTHORITY.equals(uri.getAuthority());
+    return (SCHEME_CONTENT.equals(uri.getScheme())
+            && MediaStore.AUTHORITY.equals(uri.getAuthority()));
   }
 
   @Override
@@ -59,26 +57,24 @@ class MediaStoreRequestHandler extends ContentStreamRequestHandler {
     boolean signaledCallback = false;
     try {
       ContentResolver contentResolver = context.getContentResolver();
-      Uri requestUri = checkNotNull(request.uri, "request.uri == null");
-      int exifOrientation = getExifOrientation(requestUri);
+      int exifOrientation = getExifOrientation(request);
 
-      String mimeType = contentResolver.getType(requestUri);
+      String mimeType = contentResolver.getType(request.uri);
       boolean isVideo = mimeType != null && mimeType.startsWith("video/");
 
       if (request.hasSize()) {
         PicassoKind picassoKind = getPicassoKind(request.targetWidth, request.targetHeight);
         if (!isVideo && picassoKind == FULL) {
-          Source source = getSource(requestUri);
+          Source source = getSource(request);
           Bitmap bitmap = decodeStream(source, request);
           signaledCallback = true;
           callback.onSuccess(new Result(bitmap, DISK, exifOrientation));
           return;
         }
 
-        long id = parseId(requestUri);
+        long id = parseId(request.uri);
 
-        BitmapFactory.Options options =
-            checkNotNull(createBitmapOptions(request), "options == null");
+        BitmapFactory.Options options = createBitmapOptions(request);
         options.inJustDecodeBounds = true;
 
         calculateInSampleSize(request.targetWidth, request.targetHeight, picassoKind.width,
@@ -103,7 +99,7 @@ class MediaStoreRequestHandler extends ContentStreamRequestHandler {
         }
       }
 
-      Source source = getSource(requestUri);
+      Source source = getSource(request);
       Bitmap bitmap = decodeStream(source, request);
       signaledCallback = true;
       callback.onSuccess(new Result(bitmap, DISK, exifOrientation));
@@ -124,11 +120,11 @@ class MediaStoreRequestHandler extends ContentStreamRequestHandler {
   }
 
   @Override
-  protected int getExifOrientation(Uri uri) {
+  protected int getExifOrientation(Request request) {
     Cursor cursor = null;
     try {
       ContentResolver contentResolver = context.getContentResolver();
-      cursor = contentResolver.query(uri, CONTENT_ORIENTATION, null, null, null);
+      cursor = contentResolver.query(request.uri, CONTENT_ORIENTATION, null, null, null);
       if (cursor == null || !cursor.moveToFirst()) {
         return 0;
       }
